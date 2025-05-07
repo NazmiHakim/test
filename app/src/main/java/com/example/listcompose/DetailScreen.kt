@@ -28,5 +28,6 @@ fun DetailScreen(item: Item) {
         Text(text = item.author, style = MaterialTheme.typography.bodyLarge)
         Text(text = item.info1, style = MaterialTheme.typography.bodyMedium)
         Text(text = item.info2, style = MaterialTheme.typography.bodyMedium)
+        Text(text = item.description, style = MaterialTheme.typography.bodyMedium)
     }
 }
