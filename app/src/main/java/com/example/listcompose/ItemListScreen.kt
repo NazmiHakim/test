@@ -1,7 +1,6 @@
 package com.example.listcompose
 
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,20 +18,26 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.navigation.NavController
 
 @Composable
 fun ItemListScreen(navController: NavController) {
+    val context = LocalContext.current
+    val itemList = remember { getItems(context) }
+
     LazyColumn(contentPadding = PaddingValues(8.dp)) {
-        items(ItemData.items.size) { index ->
-            val item = ItemData.items[index]
+        items(itemList.size) { index ->
+            val item = itemList[index]
             Card(
                 shape = RoundedCornerShape(16.dp),
                 modifier = Modifier
@@ -52,23 +57,38 @@ fun ItemListScreen(navController: NavController) {
                         contentScale = ContentScale.Crop
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = item.title, style = MaterialTheme.typography.titleLarge, color = Color.White)
-                    Text(text = item.author, style = MaterialTheme.typography.bodyMedium, color = Color.White)
-                    Text(text = item.info1, style = MaterialTheme.typography.bodySmall, color = Color.White)
-                    Text(text = item.info2, style = MaterialTheme.typography.bodySmall, color = Color.White)
+                    Text(
+                        text = item.title,
+                        style = MaterialTheme.typography.titleLarge,
+                        color = Color.White
+                    )
+                    Text(
+                        text = item.author,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = Color.White
+                    )
+                    Text(
+                        text = item.info1,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.White
+                    )
+                    Text(
+                        text = item.info2,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.White
+                    )
                     Spacer(modifier = Modifier.height(8.dp))
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        val context = LocalContext.current
                         Button(onClick = {
-                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(item.url))
+                            val intent = Intent(Intent.ACTION_VIEW, item.url.toUri())
                             context.startActivity(intent)
                         }) {
-                            Text("Lihat Web")
+                            Text(text = stringResource(R.string.manhwa_website))
                         }
                         Button(onClick = {
                             navController.navigate("detail/${item.id}")
                         }) {
-                            Text("Detail")
+                            Text(text = stringResource((R.string.manhwa_detail)))
                         }
                     }
                 }

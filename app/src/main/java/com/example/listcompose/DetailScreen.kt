@@ -2,6 +2,8 @@ package com.example.listcompose
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -13,7 +15,13 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun DetailScreen(item: Item) {
-    Column(modifier = Modifier.padding(16.dp)) {
+    val scrollState = rememberScrollState()
+    Column(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxSize()
+            .verticalScroll(scrollState)
+    ) {
         Image(
             painter = painterResource(id = item.imageResId),
             contentDescription = item.title,
